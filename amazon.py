@@ -25,7 +25,7 @@ def parse_items(soup):
         })
     return total_items
 
-def get_next_page(soup):
+def get_next_page_url(soup):
     BASE_URL = 'https://www.amazon.com'
     next_page = soup.select_one('a[aria-label^="Go to next page"]')
     next_page_url = BASE_URL + next_page['href'] if next_page else None
@@ -42,7 +42,7 @@ def amazon_scraper(keyword):
         soup = BeautifulSoup(r.text, 'html.parser')
         items = parse_items(soup)
         total_items.extend(items)
-        url = get_next_page(soup)
+        url = get_next_page_url(soup)
         if not url:
             break
         print(f'Page {page + 1} scraped.')
